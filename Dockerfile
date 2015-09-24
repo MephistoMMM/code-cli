@@ -61,4 +61,10 @@ ENV HOME /root
 
 CMD ["/sbin/my_init"]
 
-# cli
+# codeVS: MpSSS <mephistommm@gmail.com>
+
+# Add tool fpc
+# it have no pip3
+RUN sudo apt-get install -y fpc
+
+CMD ["/usr/bin/zsh"]
