@@ -2,9 +2,10 @@
 from docopt import docopt
 from functools import reduce
 
+from log.logInit import setupLogger, checkOldLogger
+
 
 CMDINVALIDCHAR = ('-','<')
-
 
 cmd_router = {
     'build': 'build',
@@ -41,6 +42,8 @@ def main():
       --version     Show version.
 
     """
+    logInit()
+    setupLogger()
     arguments = docopt(main.__doc__, version='CodeVS α')
 
     # get right cmd
