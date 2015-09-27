@@ -64,7 +64,12 @@ CMD ["/sbin/my_init"]
 # codeVS: MpSSS <mephistommm@gmail.com>
 
 # Add tool fpc
-# it have no pip3
-RUN sudo apt-get install -y fpc
+RUN mkdir /tmp/fpc
+WORKDIR /tmp/fpc
+RUN wget -O ./fpc.2.4.0.tar http://ncu.dl.sourceforge.net/project/freepascal/Linux/2.4.0/fpc-2.4.0.x86_64-linux.tar \
+    && tar -xf ./fpc.2.4.0.tar\
+    && ./install.sh -y \
+    && cd .. \
+    && rm -rf ./fpc
 
 CMD ["/usr/bin/zsh"]
