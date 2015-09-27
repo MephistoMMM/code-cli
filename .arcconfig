@@ -1,0 +1,4 @@
+{
+  "phabricator.uri" : "http://phab.codevs.com",
+  "defalut": "origin/arc_diff"
+}
