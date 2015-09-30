@@ -3,15 +3,16 @@ we need two loggers,
     the first is used to say the result of running to user,
     the second is used to save the result of sys error in log file.
 """
-import logging, sys
+import logging, sys, os
 import os.path as path
 
 FILE_LOGGER_NAME = 'codevs_error.log'
 FILE_LOGGER_FILENAME = path.join(path.dirname(path.abspath(__file__)), FILE_LOGGER_NAME)
 CODEVS_ERROR_FORMAT = '------------------------------------------------\n'\
                       '%(asctime)-15s  %(message)s: \n'\
-                      '\tat  %(filename)s -> %(funcName)s -> %(lineno)d\n'\
-                      '\t%(stack)s\n'
+                      'At  %(filename)s -> %(funcName)s -> %(lineno)d\n'\
+                      '%(stack)s\n\n'\
+                      'Over'
 
 def setupLogger():
 
@@ -41,8 +42,9 @@ def checkOldLogger():
     try:
         with open(FILE_LOGGER_FILENAME, mode='r') as f:
             #TODO this need send err imformation to CodeVS
-            print('there has a err file')
-            return True
+            if '-' in f.readline():
+                print('this is an error in your latest run codevs')
+                return True
 
     except FileNotFoundError as err: pass
 

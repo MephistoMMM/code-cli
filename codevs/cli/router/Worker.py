@@ -28,7 +28,7 @@ class Worker():
         except Exception as err:
             print('codevs error: sorry,\n'
                   '\tthere is a error in our cli\n')
-            writeCodeVsLog(err.value)
+            writeCodeVsLog(err)
             sys.exit(1)
 
 
@@ -47,7 +47,7 @@ class Worker():
         except Exception as err:
             print('codevs error: sorry,\n'
                   '\tthere is a error in our cli\n')
-            writeCodeVsLog(err.value)
+            writeCodeVsLog(err)
             sys.exit(1)
 
 
