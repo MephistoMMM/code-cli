@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
+import sys
+sys.path.append('..')
+
 from docopt import docopt
 from functools import reduce
 
-from log.logInit import setupLogger, checkOldLogger
-
+from .log import loggers
+from .router.build import build
+from .router.run import run
 
 CMDINVALIDCHAR = ('-','<')
 
 cmd_router = {
-    'build': 'build',
-    'run': 'run',
+    'build': build,
+    'run': run,
     'token': 'token',
     'show': 'show',
     'push': 'push',
@@ -22,16 +26,18 @@ def main():
 
     Usage:
       codevs [options]
-      codevs build <file>               
-      codevs run <file> 
+      codevs build <dir>               
+      codevs run [--args=ARGS] <dir> 
       codevs token <token> <file>
       codevs show
       codevs push <token>
       codevs rm <token>                 
 
     Cmd:
-      build     Build the file to executable file
-      run       Build the file to executable file and exec it
+      build     Build the files in dir/src/ to executable file(dir/Main)
+                ——you should put your source file into dir/src
+      run       Build the files in dir/src/ to executable file(dir/Main) and exec it, you can use -a or --args to set arguments for your program
+                ——you should put your source file into dir/src
       token     Set a Token to a file
       show      Show all token file
       push      Push a file with especial token 
@@ -42,15 +48,15 @@ def main():
       --version     Show version.
 
     """
-    logInit()
-    setupLogger()
     arguments = docopt(main.__doc__, version='CodeVS α')
 
     # get right cmd
     cmd = cliCommond(arguments)
 
     print(arguments)
-    print(cmd_router[cmd])
+    cmd_router[cmd](arguments)
+
+
 
 
 

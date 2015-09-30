@@ -1,10 +1,10 @@
-"""
-This Class deal the file name
-"""
 
 import os
 
 class KidFile:
+    """
+    This Class deal the file name
+    """
 
     def __init__(self,filename):
         self.__filename = filename
@@ -12,7 +12,7 @@ class KidFile:
 
     @property
     def suffix(self):
-        suffix = os.path.splitext(self.__filename)[1]
+        suffix = os.path.splitext(self.filename)[1]
         return suffix[1:]
 
 
@@ -24,5 +24,9 @@ class KidFile:
     @property
     def name(self):
         return os.path.splitext(self.filename)[0]
+
+    @property
+    def path(self):
+        return os.path.dirname(self.__filename)
 
 
