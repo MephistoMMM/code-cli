@@ -1,6 +1,8 @@
 """
 test list 
 """
+import sys
+sys.path.append('..')
 
 def loggers():
     """
@@ -9,9 +11,7 @@ def loggers():
     import logging
     import os
     from log.logInit import checkOldLogger
-    from log.logInit import setupLogger, FILE_LOGGER_FILENAME
-    checkOldLogger()
-    setupLogger()
+    from log.logInit import FILE_LOGGER_FILENAME
 
     user_root_logger = logging.getLogger('user_root')
     codevs_root_logger = logging.getLogger('codevs_root')
@@ -33,6 +33,20 @@ def loggers():
     os.remove(FILE_LOGGER_FILENAME)
 
 
+def kidDir():
+    """
+    KidDir
+    """
+    from os import path as osp
+    from lib.KidDir import KidDir
+    from lib.KidDir import VALID_SAMPLE_SUFFIX
+
+    PATH = './test'
+    kidDir = KidDir(PATH)
+    sampleKidFile = kidDir.getSample()
+
+    assert sampleKidFile.suffix in VALID_SAMPLE_SUFFIX, 'suffix wrang!'
+
 
 
 def kidFile():
@@ -40,7 +54,7 @@ def kidFile():
     KidFile
     """
     from os import path as osp
-    from lib.KidFile import  KidFile
+    from lib.KidDir import  KidFile
 
     PATH = osp.dirname(osp.abspath(__file__))
     FIRST = 'kidFile'
@@ -75,21 +89,35 @@ def kidFile():
     assert kidFile3.name =='.docker', '3 name should be kidFile3'
     assert kidFile4.name =='.docker', '4 name should be .docker' 
 
-
+    assert kidFile1.path ==PATH, '1 path should be {}'.format(PATH)
+    assert kidFile2.path ==PATH, '2 path should be {}'.format(PATH)
+    assert kidFile3.path ==PATH, '3 path should be {}'.format(PATH)
+    assert kidFile4.path ==PATH, '4 path should be {}'.format(PATH) 
 
 
 testList = []
 testList.append(kidFile)
 testList.append(loggers)
+testList.append(kidDir)
+
+result = {'all':0, 'success': 0, 'fail': 0}
 
 
 for testaim in testList:
+    result['all'] += 1
     try:
         testaim()
+        result['success'] += 1
 
     except AssertionError as err:
-        print("{} testfalue!\n\t{}.".format(
+        result['fail'] += 1
+        print("{} testfalue!\n\t{}.\n".format(
                 testaim.__name__, err))
+else:
+    print('\n{:-^20}\n'
+          'all test {all}, success {success}, fail {fail}\n'.format('', **result))
+
+
     
     
         
