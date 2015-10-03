@@ -43,7 +43,7 @@ def checkOldLogger():
         with open(FILE_LOGGER_FILENAME, mode='r') as f:
             #TODO this need send err imformation to CodeVS
             if '-' in f.readline():
-                print('this is an error in your latest run codevs')
+                print('this is an error in your latest running codevs')
                 return True
 
     except FileNotFoundError as err: pass

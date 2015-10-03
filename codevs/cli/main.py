@@ -11,15 +11,16 @@ from .router.run import run
 from .router.make import make
 
 CMDINVALIDCHAR = ('-','<')
+TODO = lambda *args: print('Sorry , we haven\'t finished this function!')
 
 cmd_router = {
     'build': build,
     'run': run,
     'make': make,
-    'token': 'token',
-    'show': 'show',
-    'push': 'push',
-    'remove': 'remove'
+    'token': TODO,
+    'show': TODO,
+    'push': TODO,
+    'remove': TODO
 }
 
 
@@ -81,7 +82,7 @@ def main():
     except Exception as err:
         print('codevs error: sorry,\n'
               '\tthere is a error in our cli\n')
-        loggers.writeCodeVsLog(err.value)
+        loggers.writeCodeVsLog(err)
         sys.exit(1)
 
 
