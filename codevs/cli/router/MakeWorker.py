@@ -1,7 +1,6 @@
 import os,sh,sys
 from cli.log.loggers import writeUserLog
 from cli.log.loggers import writeCodeVsLog
-from cli.lib.KidDir import KidDir
 
 class MakeWorker():
     binSh = sh.Command('/bin/sh')

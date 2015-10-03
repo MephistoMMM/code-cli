@@ -3,7 +3,7 @@ there are functions for write logs
 """
 import sys
 import logging ,traceback
-from .logInit import FILE_LOGGER_FILENAME
+from cli.log.logInit import FILE_LOGGER_FILENAME
 
 user_root_logger = logging.getLogger('user_root')
 codevs_root_logger = logging.getLogger('codevs_root')

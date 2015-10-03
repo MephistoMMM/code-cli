@@ -23,20 +23,27 @@ class KidDir():
 
     @property
     def srcfilelist(self):
-        return os.listdir(self.dirsrc)
+        filelist = []
 
-    def getMakeFile(self):pass
+        for root, dirs, files in os.walk(self.dirsrc):
+            for filename in files:
+                kidFile = KidFile(os.path.join(root, filename))
+
+                if kidFile.suffix in VALID_SAMPLE_SUFFIX:
+                    filelist.append(kidFile)
         
+        return filelist
 
-    def getSample(self):
-        samplelist = self.srcfilelist
 
-        for sample in samplelist:
-            sampleKidFile = KidFile(os.path.join(self.dirsrc,sample))
+    @property
+    def fileType(self):
+        for root, dirs, files in os.walk(self.dirsrc):
+            for filename in files:
+                kidFile = KidFile(os.path.join(root, filename))
 
-            if sampleKidFile.suffix in VALID_SAMPLE_SUFFIX:
-                return sampleKidFile
-
+                if kidFile.suffix in VALID_SAMPLE_SUFFIX:
+                    return kidFile.suffix
+        
 
 
 class KidFile():
@@ -47,6 +54,9 @@ class KidFile():
     def __init__(self,filename):
         self.__filename = filename
 
+    @property
+    def absname(self):
+        return self.__filename
 
     @property
     def suffix(self):

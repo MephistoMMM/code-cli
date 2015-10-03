@@ -5,10 +5,10 @@ sys.path.append('..')
 from docopt import docopt
 from functools import reduce
 
-from .log import loggers
-from .router.build import build
-from .router.run import run
-from .router.make import make
+from cli.log import loggers
+from cli.router.build import build
+from cli.router.run import run
+from cli.router.make import make
 
 CMDINVALIDCHAR = ('-','<')
 TODO = lambda *args: print('Sorry , we haven\'t finished this function!')

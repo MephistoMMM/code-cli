@@ -13,20 +13,25 @@ class Worker():
         #TODO can suppose makefile
 
         try:
-            sample = self.__kidDir.getSample()
-            command = self.commandDict[sample.suffix]
+            fileType = self.__kidDir.fileType
+            command = self.commandDict[fileType]()
             self.binSh('-c', command, _err=process_errlog)
             
-            print('codevs info: Congratulation! Build successfully')
+            writeUserLog('codevs info: Congratulation! Build successfully')
 
         except sh.ErrorReturnCode:
-            print('codevs error: build err,\n'
+            writeUserLog('codevs error: build err,\n'
                   '\tfailed to build your code,\n'
                   '\tyou should check your code carefully.')
             sys.exit(1)
+
+        except KeyError as err:
+            writeUserLog('codevs error: no valid file in src,\n'
+                  '\tplease checkout your files suffix.')
+            sys.exit(1)
         
         except Exception as err:
-            print('codevs error: sorry,\n'
+            writeUserLog('codevs error: sorry,\n'
                   '\tthere is a error in our cli\n')
             writeCodeVsLog(err)
             sys.exit(1)
@@ -40,12 +45,12 @@ class Worker():
             self.binSh(exec_line, _err=process_errlog, _out=process_errlog,_in=sys.stdin)
 
         except sh.ErrorReturnCode:
-            print('codevs error: run err,\n'
+            writeUserLog('codevs error: run err,\n'
                   '\tthere is a logic error in your code')
             sys.exit(1)
 
         except Exception as err:
-            print('codevs error: sorry,\n'
+            writeUserLog('codevs error: sorry,\n'
                   '\tthere is a error in our cli\n')
             writeCodeVsLog(err)
             sys.exit(1)
@@ -62,30 +67,33 @@ class Worker():
 
     @property
     def commandDict(self):
-        return {
-                'c':' '.join([
-                    'gcc',
-                    os.path.join(self.dirsrc,'*'),
-                    '-DONLINE_JUDGE',
-                    '-o %s' % os.path.join(self.dirabsname, 'Main'),
-                    '-static',
-                    '-lm',
-                    '-Wall',
-                    '-O2']),
-                'cpp':' '.join([
-                       'g++',
-                        os.path.join(self.dirsrc,'*'),
-                       '-finput-charset=UTF-8',
-                       '-o %s' % os.path.join(self.dirabsname, 'Main'),
-                       '-static',
-                       '-lm',
-                       '-Wall',
-                       '-O2']),
-                'pas':' '.join([
-                       'fpc',
-                       os.path.join(self.dirsrc,'*'),
-                       '-o %s' % os.path.join(self.dirabsname, 'Main')])
-                }
+        def c():
+            return ' '.join([
+                   'gcc',
+                   ' '.join([x.absname for x in self.__kidDir.srcfilelist]),
+                   '-DONLINE_JUDGE',
+                   '-o %s' % os.path.join(self.dirabsname, 'Main'),
+                   '-static',
+                   '-lm',
+                   '-Wall',
+                   '-O2'])
+        def cpp():
+            return ' '.join([
+                   'g++',
+                   ' '.join([x.absname for x in self.__kidDir.srcfilelist]),
+                   '-finput-charset=UTF-8',
+                   '-o %s' % os.path.join(self.dirabsname, 'Main'),
+                   '-static',
+                   '-lm',
+                   '-Wall',
+                   '-O2'])
+        def pas():
+            return ' '.join([
+                   'fpc',
+                   ' '.join([x.absname for x in self.__kidDir.srcfilelist]),
+                   '-o %s' % os.path.join(self.dirabsname, 'Main')])
+
+        return { 'c':c, 'cpp':cpp, 'pas':pas}
 
 
 def process_errlog(line, stdin, process):

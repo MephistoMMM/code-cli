@@ -2,7 +2,7 @@
 codevs make [<target>] [options]
 make files acrroding to makefile
 """
-from .MakeWorker import MakeWorker
+from cli.router.MakeWorker import MakeWorker
 
 def make(arguments):
     args = []
