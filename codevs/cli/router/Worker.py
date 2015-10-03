@@ -39,10 +39,11 @@ class Worker():
 
     def run(self, args):
         exec_filename = os.path.join(self.dirabsname, 'Main')
+        print(args)
         exec_line = ' '.join([exec_filename,args.strip()])
 
         try:
-            self.binSh(exec_line, _err=process_errlog, _out=process_errlog,_in=sys.stdin)
+            self.binSh('-c',exec_line, _err=process_errlog, _out=process_errlog,_in=sys.stdin)
 
         except sh.ErrorReturnCode:
             writeUserLog('codevs error: run err,\n'
@@ -73,7 +74,7 @@ class Worker():
                    ' '.join([x.absname for x in self.__kidDir.srcfilelist]),
                    '-DONLINE_JUDGE',
                    '-o %s' % os.path.join(self.dirabsname, 'Main'),
-                   '-static',
+                   # '-static',
                    '-lm',
                    '-Wall',
                    '-O2'])
@@ -97,4 +98,4 @@ class Worker():
 
 
 def process_errlog(line, stdin, process):
-    writeUserLog(line)
+    writeUserLog(line[:-1])

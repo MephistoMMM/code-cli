@@ -50,7 +50,7 @@ def main():
 
     Options:
       for run
-      -a --args     set arguments for your program
+      -a ARGUMENTS, --args=ARGUMENTS   set arguments for your program
       
       for make
       -f FILE       set makefile name as FILE not makefile

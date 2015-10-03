@@ -18,7 +18,7 @@ def setupLogger():
 
     # root logger
     console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setFormatter(logging.Formatter())
+    console_handler.setFormatter(logging.Formatter('%(message)s'))
     console_handler.setLevel(logging.INFO)
     user_root_logger = logging.getLogger('user_root')
     user_root_logger.addHandler(console_handler)

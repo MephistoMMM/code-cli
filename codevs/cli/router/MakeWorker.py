@@ -7,7 +7,7 @@ class MakeWorker():
 
     def make(self, argstrnig):
         try:
-            self.binSh('-c', ' '.join(['make', argstrnig]), _err=process_errlog)
+            self.binSh('-c', ' '.join(['make', argstrnig]), _err=process_errlog, _out=process_errlog)
 
         except sh.ErrorReturnCode:
             print('codevs error: make err,\n'
@@ -23,4 +23,4 @@ class MakeWorker():
 
 
 def process_errlog(line, stdin, process):
-    writeUserLog(line)
+    writeUserLog(line[:-1])
