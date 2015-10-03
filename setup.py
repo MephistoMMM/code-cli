@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-with open('requirements.md') as f:
+with open('./codevs/requirements.md') as f:
     reqs = f.read().splitlines()
 
 setup(name='codevs',
@@ -15,7 +15,7 @@ setup(name='codevs',
 
       package_data={
       },
-      packages=find_packages(exclude=['ez_setup', 'examples', 'test']),
+      packages=find_packages(exclude=['*.test.*']),
       include_package_data=True, # can leave this?
 
       zip_safe=False,
@@ -23,7 +23,7 @@ setup(name='codevs',
 
       entry_points={
             'console_scripts': [
-                'codevs = codevs.codevs:main'
+                'codevs = codevs.cli.main:main'
             ]
       },
       classifiers=(
