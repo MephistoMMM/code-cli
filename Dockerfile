@@ -72,4 +72,10 @@ RUN wget -O ./fpc.2.4.0.tar http://ncu.dl.sourceforge.net/project/freepascal/Lin
     && cd .. \
     && rm -rf ./fpc
 
+WORKDIR /tmp
+ADD ./dist/ .
+
+
+RUN cp -r /home/coding/.zshrc /home/coding/.oh-my-zsh /root/
+
 CMD ["/usr/bin/zsh"]
