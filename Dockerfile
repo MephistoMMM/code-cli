@@ -72,10 +72,18 @@ RUN wget -O ./fpc.2.4.0.tar http://ncu.dl.sourceforge.net/project/freepascal/Lin
     && cd .. \
     && rm -rf ./fpc
 
+# Add pip3 and setuptools
+RUN sudo apt-get update \
+    && sudo apt-get install -y python3-pip
+
 WORKDIR /tmp
 ADD ./dist/ .
+RUN tar -xf codevs.tar \
+    && mv codevs /opt/ \
+    && pip3 install -r /opt/codevs/requirements.md \
+    && ln -s /opt/codevs/codevs /usr/local/bin/codevs 
 
 
-RUN cp -r /home/coding/.zshrc /home/coding/.oh-my-zsh /root/
-
-CMD ["/usr/bin/zsh"]
+#RUN cp -r /home/coding/.zshrc /home/coding/.oh-my-zsh /root/
+#CMD ["/usr/bin/zsh"]
+CMD ["/sbin/my_init"]
